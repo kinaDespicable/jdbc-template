@@ -1,6 +1,7 @@
 package dev.spring.datajdbc.dao.implementations;
 
 import dev.spring.datajdbc.dao.DAO;
+import dev.spring.datajdbc.exceptions.ResourceUpdateFailedException;
 import dev.spring.datajdbc.models.entities.Employee;
 import dev.spring.datajdbc.models.mappers.EmployeeMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,6 +33,15 @@ public class EmployeeDAO implements DAO<Employee> {
         return jdbcTemplate.query(sql, new EmployeeMapper(), id).stream().findAny();
     }
 
+    public Optional<Employee> fetchByFirstNameAndLastName(String firstName, String lastName){
+        String sql = "SELECT * FROM employees WHERE first_name=? AND last_name = ?";
+        return jdbcTemplate.query(sql, new EmployeeMapper(),
+                        firstName,
+                        lastName)
+                .stream()
+                .findAny();
+    }
+
     @Override
     public int updateById(Long id, Employee requestBody) {
         String sql = "UPDATE employees SET first_name=?, last_name=?, department_id=? WHERE id=?";
@@ -46,5 +56,13 @@ public class EmployeeDAO implements DAO<Employee> {
     public Boolean deleteById(Long id) {
         String sql = "DELETE FROM employees WHERE id=?";
         return jdbcTemplate.update(sql, id) == 1 ;
+    }@Override
+    public Employee create(Employee requestBody) {
+        String sql = "INSERT INTO employees(first_name, last_name, department_id) VALUES (?,?,?)";
+        int affected = jdbcTemplate.update(sql,requestBody.getFirstName(),requestBody.getLastName(),requestBody.getDepartmentId());
+
+        return fetchByFirstNameAndLastName(requestBody.getFirstName(), requestBody.getLastName())
+                .orElseThrow(()-> new ResourceUpdateFailedException("Couldn't create new Employee"));
+
     }
 }

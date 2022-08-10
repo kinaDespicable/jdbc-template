@@ -10,4 +10,5 @@ public interface DAO<T> {
     Optional<T> fetchOne(Long id);
     int updateById(Long id, T requestBody);
     Boolean deleteById(Long id);
+    T create(T requestBody);
 }

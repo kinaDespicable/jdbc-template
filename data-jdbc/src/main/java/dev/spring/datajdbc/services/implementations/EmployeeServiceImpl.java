@@ -59,4 +59,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Boolean delete(Long id) {
         return dao.deleteById(id);
     }
+
+    @Override
+    public Employee create(Employee requestBody) {
+        return dao.create(requestBody);
+    }
 }

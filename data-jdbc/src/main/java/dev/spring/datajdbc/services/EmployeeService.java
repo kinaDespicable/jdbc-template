@@ -14,4 +14,6 @@ public interface EmployeeService {
     Employee update(Long id, Employee request);
 
     Boolean delete(Long id);
+
+    Employee create(Employee requestBody);
 }

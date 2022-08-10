@@ -16,6 +16,11 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody Employee requestBody){
+        return new ResponseEntity<>(employeeService.create(requestBody), HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<?> getAll(){
         return ResponseEntity

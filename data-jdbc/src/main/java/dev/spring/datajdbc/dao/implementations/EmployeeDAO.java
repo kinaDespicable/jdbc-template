@@ -35,12 +35,11 @@ public class EmployeeDAO implements DAO<Employee> {
     @Override
     public int updateById(Long id, Employee requestBody) {
         String sql = "UPDATE employees SET first_name=?, last_name=?, department_id=? WHERE id=?";
-        int update = jdbcTemplate.update(sql,
+        return jdbcTemplate.update(sql,
                 requestBody.getFirstName(),
                 requestBody.getLastName(),
                 requestBody.getDepartmentId(),
                 id);
-        return update;
     }
 
     @Override

@@ -2,10 +2,12 @@ package dev.spring.datajdbc.models.mappers;
 
 import dev.spring.datajdbc.models.entities.Department;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class DepartmentMapper implements RowMapper<Department> {
     @Override
     public Department mapRow(ResultSet rs, int rowNum) throws SQLException {

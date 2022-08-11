@@ -53,16 +53,12 @@ public class EmployeeDAO implements DAO<Employee> {
     }
 
     @Override
-    public Boolean deleteById(Long id) {
+    public int deleteById(Long id) {
         String sql = "DELETE FROM employees WHERE id=?";
-        return jdbcTemplate.update(sql, id) == 1 ;
+        return jdbcTemplate.update(sql, id);
     }@Override
-    public Employee create(Employee requestBody) {
+    public int create(Employee requestBody) {
         String sql = "INSERT INTO employees(first_name, last_name, department_id) VALUES (?,?,?)";
-        int affected = jdbcTemplate.update(sql,requestBody.getFirstName(),requestBody.getLastName(),requestBody.getDepartmentId());
-
-        return fetchByFirstNameAndLastName(requestBody.getFirstName(), requestBody.getLastName())
-                .orElseThrow(()-> new ResourceUpdateFailedException("Couldn't create new Employee"));
-
+        return jdbcTemplate.update(sql,requestBody.getFirstName(),requestBody.getLastName(),requestBody.getDepartmentId());
     }
 }

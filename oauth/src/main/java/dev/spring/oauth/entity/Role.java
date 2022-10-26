@@ -1,5 +1,6 @@
 package dev.spring.oauth.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Role implements Serializable {
     @Column(name = "role_name", nullable = false)
     private String roleName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
     private Set<User> users = new LinkedHashSet<>();
 
